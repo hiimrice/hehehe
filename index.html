@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cheer Up!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      font-family: 'Quicksand', sans-serif;
+      background-color: #cfd8dc; /* loading bg */
+      overflow: hidden;
+      transition: background-color 2s ease-in-out;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .rain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      transition: opacity 2s ease-in-out;
+      overflow: hidden;
+    }
+
+    .drop {
+      position: absolute;
+      bottom: 100%;
+      width: 2px;
+      height: 15px;
+      background: rgba(255,255,255,0.3);
+      animation: fall 2s linear infinite;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(110vh); }
+    }
+
+    #loading, #main {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+      transition: opacity 2s ease-in-out;
+      background: transparent;
+      padding: 20px;
+    }
+
+    #loading img {
+      width: 35vw;
+      max-width: 180px;
+      min-width: 120px;
+      cursor: pointer;
+      filter: drop-shadow(0 0 20px #ff8fa3);
+      animation: glowPulse 3s ease-in-out infinite alternate;
+      transition: transform 0.5s ease-in-out, filter 1s ease-in-out;
+    }
+
+    #loading img:hover {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 35px #ff4d6d);
+    }
+
+    @keyframes glowPulse {
+      from { filter: drop-shadow(0 0 15px #ff8fa3); }
+      to { filter: drop-shadow(0 0 35px #ff4d6d); }
+    }
+
+    #main {
+      opacity: 0;
+      pointer-events: none;
+      background-color: #f9e7dc;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    #main.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #gif-container {
+      background: rgba(249, 231, 220, 0.85);
+      padding: 15px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(255, 194, 0, 0.3);
+      filter: brightness(0.95) drop-shadow(0 0 6px rgba(255, 210, 130, 0.5));
+      margin-bottom: 20px;
+      display: inline-block;
+      max-width: 90%;
+    }
+
+    #main img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      border-radius: 16px;
+      display: block;
+    }
+
+    #cheer-text {
+      font-size: 1.1rem;
+      color: #444;
+      max-width: 90%;
+      text-align: center;
+      opacity: 0;
+      animation: fadeIn 2s 0.5s ease-in-out forwards;
+      user-select: none;
+      line-height: 1.6;
+      word-wrap: break-word;
+      margin-bottom: 30px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Smooth scroll on mobile */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <div class="rain" id="rain"></div>
+
+  <div id="loading">
+    <img
+      id="heart"
+      src="https://cdn-icons-png.flaticon.com/512/833/833472.png"
+      alt="Glowing Heart"
+    />
+  </div>
+
+  <div id="main">
+    <div id="gif-container">
+      <img
+        src="https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3aHB4dWM1ejNqZ3V5N3h2NWN2Zmxveng0ZWJsdHU4a3VpNHd6ODVycSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/LXedhClrfqrppgfViE/giphy.gif"
+        alt="Cute Cheer Up GIF"
+      />
+    </div>
+    <div id="cheer-text">
+      cheer up my baby hehe 😊 i wish i was there to hold and comfort and hug you on the days when you're feeling down but my hands are tied 😔 (and hence this website that i definitely coded MYSELF!!!) i just want you to know that I'll always be here for you and that I love u through your highs and lows, even on the days when you're sad or tired. no sad okieee hehe. if you ever need me I'm always one call away 🫶
+    </div>
+  </div>
+
+  <script>
+    const rain = document.getElementById('rain');
+    for (let i = 0; i < 60; i++) {
+      const d = document.createElement('div');
+      d.classList.add('drop');
+      d.style.left = Math.random() * 100 + 'vw';
+      d.style.animationDelay = Math.random() * 2 + 's';
+      d.style.animationDuration = 1.5 + Math.random() + 's';
+      rain.appendChild(d);
+    }
+
+    const heart = document.getElementById('heart');
+    const loading = document.getElementById('loading');
+    const main = document.getElementById('main');
+
+    heart.addEventListener('click', () => {
+      loading.style.opacity = '0';
+      rain.style.opacity = '0';
+      setTimeout(() => {
+        loading.style.display = 'none';
+        rain.style.display = 'none';
+        main.classList.add('show');
+        document.body.style.backgroundColor = '#f9e7dc';
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
